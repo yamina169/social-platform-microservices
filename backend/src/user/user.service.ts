@@ -92,14 +92,19 @@ export class UserService {
     return user;
   }
   generateToken(user: UserEntity): string {
-    return sign(
-      {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-      },
-      process.env.JWT_SECRET,
-    );
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error('JWT_SECRET is not defined in environment variables');
+    }
+
+    // Only include safe properties in the token
+    const payload = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    };
+
+    return sign(payload, jwtSecret, { expiresIn: '1h' });
   }
 
   generateUserResponse(user: UserEntity): IUserResponse {
