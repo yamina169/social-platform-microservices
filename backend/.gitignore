@@ -12,11 +12,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# Ignore MinIO system files
-backend/minio_data/.minio.sys
+minio_data/*
+!minio_data/.gitkeep
 
-# Ignore all files in the articles bucket folder
-backend/minio_data/articles/
 
 
 
